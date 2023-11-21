@@ -1,0 +1,22 @@
+{
+  "name": "task-manager-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ashujha301/Task-Manager-API.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ashujha301/Task-Manager-API/issues"
+  },
+  "homepage": "https://github.com/ashujha301/Task-Manager-API#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
