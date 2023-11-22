@@ -1,8 +1,10 @@
 const express = require("express");
+const bodyParser = require('body-parser');
 const fs = require("fs");
 const app = express();
+const tasks = require("./task");
 
-app.use(express.json());
+app.use(bodyParser.json());
 
 let port = 3000;
 
@@ -12,7 +14,7 @@ app.get("/", (req, res) => {
 
 //Get all the tasks
 app.get("/tasks", (req, res) => {
-  let tasks = require("./task");
+  
   res.status(200).send(tasks);
 });
 
@@ -22,7 +24,7 @@ app.get("/tasks/:id", (req, res) => {
   if (!taskId) {
     res.status(400).send("Invalid Task ID");
   }
-  let tasks = require("./task");
+  
   let task = tasks.find((t) => t.id === parseInt(taskId));
 
   if (!task) {
@@ -38,7 +40,7 @@ app.get("/tasks/priority/:level", (req, res) => {
   if (!level) {
     res.status(400).send("Not Valid level");
   }
-  let tasks = require("./task");
+  
   let priorityTasks = tasks.filter((t) => t.priority === level);
 
   if (priorityTasks.length === 0) {
@@ -50,33 +52,62 @@ app.get("/tasks/priority/:level", (req, res) => {
   }
 });
 
-//Post new tasks
-// app.post("/tasks", (req, res) => {
-//   let task = {
-//     "id": req.body.id,
-//     "title": req.body.title,
-//     "description": req.body.description,
-//     "priority": req.body.priority,
-//     "completed": req.body.completed,
-//   };
 
-//   //Adding a new task to array of tasks
-//   let tasks = require("./task");
-//   tasks.push(task);
-//   //console.log(tasks);
-//   //Saving data in json file
-//   const jsCode = `tasks = ${stringify(tasks)};`;
+//POST new task
 
-//   // Use fs.writeFile with a callback
-//   fs.writeFile("./task.js", jsCode, (err) => {
-//     if (err) {
-//       console.error(err);
-//       res.status(500).send("Internal Server Error");
-//     } else {
-//       res.status(201).send({ message: "New task added successfully !!" });
-//     }
-//   });
-// });
+let tasksArray = tasks;
+
+app.post('/tasks', (req, res) => {
+  const { title, description, priority } = req.body;
+
+  if (!title || !description || !priority) {
+    return res.status(400).json({ error: 'Incomplete task details provided' });
+  }
+
+  const newTask = {
+    id: tasksArray.length + 1,
+    title,
+    description,
+    priority,
+    completed: false,
+  };
+
+  console.log(newTask);
+  tasksArray.push(newTask);
+
+  // Update the task.js file with the new tasks array
+  fs.writeFileSync('./task.js', `module.exports = ${JSON.stringify(tasksArray, null, 2)};`);
+
+  res.status(201).json(tasksArray);
+});
+
+//UPDATE existing task by its ID
+app.put("/tasks/:id" , (req ,res) => {
+  let id = parseInt(req.params.id);
+  let task =  tasks.find((t)=> t.id === id);
+
+  if(!task){
+    return res.status(400).send("Invalid Task");
+  }
+  const {title , description , priority , completed} = req.body;
+  if(!title || !description || !priority){
+    return res.status(400).send("Please provide all fields");
+    }
+
+    //Update the task 
+    task.title = title;
+    task.description = description;
+    task.priority = priority;
+
+    if(completed !== undefined){
+      task.completed = completed;
+    }
+
+    //Update the task.js file 
+    fs.writeFileSync('./task.js', `module.exports = ${JSON.stringify(tasksArray, null, 2)};`);
+
+    res.status(200).send(task);
+})
 
 app.listen(port, (err) => {
   if (err) {
