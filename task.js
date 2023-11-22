@@ -1,11 +1,4 @@
-module.exports = [
-  {
-    "id": 1,
-    "title": "Task 1",
-    "description": "Complete the task 1.",
-    "priority": "low",
-    "completed": false
-  },
+const tasks = [
   {
     "id": 2,
     "title": "Task 2",
@@ -74,5 +67,12 @@ module.exports = [
     "description": "Clean Dishes.",
     "priority": "low",
     "completed": false
+  },
+  {
+    "id": 12,
+    "title": "Files",
+    "description": "arrange files.",
+    "priority": "low",
+    "completed": false
   }
-];
+]; module.exports = tasks
