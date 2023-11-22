@@ -2,16 +2,16 @@ module.exports = [
   {
     "id": 1,
     "title": "Task 1",
-    "description": "Completed the task 1 on time .",
-    "priority": "medium",
-    "completed": true
+    "description": "Complete the task 1.",
+    "priority": "low",
+    "completed": false
   },
   {
     "id": 2,
-    "title": "Code on leetcode",
-    "description": "Complete Task 2 before time.",
-    "priority": "high",
-    "completed": false
+    "title": "Task 2",
+    "description": "Complete the task 2.",
+    "priority": "medium",
+    "completed": true
   },
   {
     "id": 3,
@@ -36,10 +36,9 @@ module.exports = [
   },
   {
     "id": 6,
-    "title": "Task 6",
-    "description": "Complete the task 6.",
+    "description": "Go to gym before 6pm everydat.",
     "priority": "high",
-    "completed": true
+    "completed": false
   },
   {
     "id": 7,
@@ -71,23 +70,9 @@ module.exports = [
   },
   {
     "id": 11,
-    "title": "Task 11",
-    "description": "Complete the task 11.",
+    "title": "task 11",
+    "description": "Clean Dishes.",
     "priority": "low",
-    "completed": false
-  },
-  {
-    "id": 12,
-    "title": "Task 12",
-    "description": "Complete the task 12.",
-    "priority": "high",
-    "completed": false
-  },
-  {
-    "id": 13,
-    "title": "Task 13",
-    "description": "Complete the task 13.",
-    "priority": "medium",
     "completed": false
   }
 ];

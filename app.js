@@ -4,7 +4,7 @@ const fs = require("fs");
 const app = express();
 const tasks = require("./task");
 
-app.use(bodyParser.json());
+app.use(bodyParser.json()); 
 
 let port = 3000;
 
@@ -12,11 +12,17 @@ app.get("/", (req, res) => {
   res.status(200).send("Task Manager API Application !!");
 });
 
+
+
+
 //Get all the tasks
 app.get("/tasks", (req, res) => {
   
   res.status(200).send(tasks);
 });
+
+
+
 
 //Get single task by id
 app.get("/tasks/:id", (req, res) => {
@@ -33,6 +39,9 @@ app.get("/tasks/:id", (req, res) => {
     res.status(200).send(task);
   }
 });
+
+
+
 
 //GET the task by priority levels
 app.get("/tasks/priority/:level", (req, res) => {
@@ -90,9 +99,7 @@ app.put("/tasks/:id" , (req ,res) => {
     return res.status(400).send("Invalid Task");
   }
   const {title , description , priority , completed} = req.body;
-  if(!title || !description || !priority){
-    return res.status(400).send("Please provide all fields");
-    }
+  
 
     //Update the task 
     task.title = title;
