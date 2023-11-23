@@ -1,4 +1,5 @@
 const express = require("express");
+const uuid = require('uuid');
 const bodyParser = require("body-parser");
 const fs = require("fs");
 const app = express();
@@ -17,17 +18,37 @@ app.get("/tasks", (req, res) => {
   res.status(200).send(tasks);
 });
 
+
+// GET tasks based on completion status using query parameter
+app.get("/tasks/completed", (req, res) => {
+  let filterTasks = req.query.completed;
+
+  console.log(filterTasks);
+
+  if (filterTasks === "true" || filterTasks === "false") {
+    const completedStatus = filterTasks === "true"; 
+    const filteredTasks = tasks.filter((t) => t.completed === completedStatus);
+    res.status(200).send(filteredTasks);
+  } else if (filterTasks === undefined) {
+    // If no query parameter is provided
+    res.status(200).send("FilterTask is undefined");
+  } else {
+    return res.status(400).send("Provide a valid value for the 'completed' parameter.");
+  }
+});
+
+
 //Get single task by id
 app.get("/tasks/:id", (req, res) => {
-  let taskId = req.params.id;
+  let taskId = parseInt(req.params.id);
   if (!taskId) {
     res.status(400).send("Invalid Task ID");
   }
 
-  let task = tasks.find((t) => t.id === parseInt(taskId));
+  let task = tasks.find((t) => t.id === taskId);
 
   if (!task) {
-    res.status(400).send("Task not found");
+    res.status(400).send(`Task with ${taskId} not found in the array`);
   } else {
     res.status(200).send(task);
   }
@@ -63,8 +84,12 @@ app.post("/tasks", (req, res) => {
     return res.status(400).json({ error: "Incomplete task details provided" });
   }
 
+  // Find the maximum ID in the existing tasksArray
+  const maxId = tasksArray.reduce((max, task) => (task.id > max ? task.id : max), 0);
+
+
   const newTask = {
-    id: tasksArray.length + 1,
+    id: maxId + 1,
     title,
     description,
     priority,
@@ -117,7 +142,7 @@ app.delete("/tasks/:id",(req,res) => {
   let taskid = tasks.find((t) => t.id === id);
 
   if(!taskid){
-    return res.status(400).send("Task not found");
+    return res.status(400).send(`Task with ${id} not found to delete`);
   }
 
   const deleteTask = tasks.splice(taskid,1)[0];
@@ -131,6 +156,7 @@ app.delete("/tasks/:id",(req,res) => {
   res.status(200).send(deleteTask);
 
 });
+
 
 app.listen(port, (err) => {
   if (err) {

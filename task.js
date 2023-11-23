@@ -70,9 +70,37 @@ const tasks = [
   },
   {
     "id": 12,
-    "title": "Files",
-    "description": "arrange files.",
+    "title": "Clean room",
+    "description": "Clean room before 6pm.",
+    "priority": "high",
+    "completed": false
+  },
+  {
+    "id": 14,
+    "title": "task 14",
+    "description": "task 14.",
     "priority": "low",
+    "completed": false
+  },
+  {
+    "id": 15,
+    "title": "task something",
+    "description": "task something.",
+    "priority": "low",
+    "completed": false
+  },
+  {
+    "id": 13,
+    "title": " ayush",
+    "description": "ayush test.",
+    "priority": "low",
+    "completed": false
+  },
+  {
+    "id": 16,
+    "title": "Swimming",
+    "description": "complete swimming.",
+    "priority": "high",
     "completed": false
   }
 ]; module.exports = tasks
